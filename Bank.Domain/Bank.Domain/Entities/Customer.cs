@@ -1,24 +1,45 @@
 ﻿using Bank.Domain.ValueObjects;
+using System.Net;
 
 namespace Bank.Domain.Entities
 {
     public class Customer
     {
-        public Guid Id { get; private set; }
+        public int ID { get; private set; }
         public ContactData ContactData { get; private set; }
         public PersonalData PersonalData { get; private set; }
-        public AddressData AddressData { get; private set; }
-        public DateTime RegistrationDate { get; private set; }
+        public int AddressId { get; private set; }
+        public DateTime RegistrationDateTime { get; private set; }
         public RegistrationStatus RegistrationStatus { get; private set; }
 
-        public Customer(Guid id, ContactData contactData, PersonalData personalData, AddressData addressData, DateTime registrationDate)
+        public Customer(int id, ContactData contactData, PersonalData personalData, int addressId, DateTime registrationDate)
         {
-            Id = id;
+            if (contactData == null) throw new ArgumentException("Contact data is required.");
+            if (personalData == null) throw new ArgumentException("Personal data is required.");
+            if (addressId <= 0) throw new ArgumentException("AddressId must be a valid reference.");
+            if (registrationDate > DateTime.UtcNow) throw new ArgumentException("Registration date cannot be in the future.");
+
+            ID = id;
             ContactData = contactData;
             PersonalData = personalData;
-            AddressData = addressData;
-            RegistrationDate = registrationDate;
+            AddressId = addressId;
+            RegistrationDateTime = registrationDate;
             RegistrationStatus = RegistrationStatus.REQUEST_SENT;
+        }
+
+        public Customer(int id, ContactData contactData, PersonalData personalData, int addressId, DateTime registrationDate, RegistrationStatus registrationStatus)
+        {
+            if (contactData == null) throw new ArgumentException("Contact data is required.");
+            if (personalData == null) throw new ArgumentException("Personal data is required.");
+            if (addressId <= 0) throw new ArgumentException("AddressId must be a valid reference.");
+            if (registrationDate > DateTime.UtcNow) throw new ArgumentException("Registration date cannot be in the future.");
+
+            ID = id;
+            ContactData = contactData;
+            PersonalData = personalData;
+            AddressId = addressId;
+            RegistrationDateTime = registrationDate;
+            RegistrationStatus = registrationStatus;
         }
 
         public void MarkPersonalDataVerified()
