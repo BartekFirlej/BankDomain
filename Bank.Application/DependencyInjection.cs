@@ -1,0 +1,13 @@
+﻿using Bank.Application.ServiceImplementations;
+using Bank.Application.ServiceInterfaces;
+using Microsoft.Extensions.DependencyInjection;
+
+public static class DependencyInjection
+{
+    public static IServiceCollection AddApplication(this IServiceCollection services)
+    {
+        services.AddScoped<ICustomerService, CustomerService>();
+        services.AddScoped<IAddressService, AddressService>();
+        return services;
+    }
+}

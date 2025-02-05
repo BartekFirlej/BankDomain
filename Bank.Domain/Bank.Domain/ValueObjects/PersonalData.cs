@@ -17,8 +17,8 @@
                 throw new ArgumentException("Last name cannot be empty", nameof(lastName));
             if (birthDate.Year >= DateTime.Now.Year - 10)
                 throw new ArgumentException("Too low age");
-            if (birthDate.Year >= DateTime.Now.Year - 100)
-                throw new ArgumentException("Too high age");
+            if (birthDate.Year <= DateTime.Now.Year -100)
+                throw new ArgumentException("Too high age.");
 
             FirstName = firstName;
             SecondName = secondName;
@@ -34,7 +34,7 @@
                 throw new ArgumentException("Last name cannot be empty", nameof(lastName));
             if (birthDate.Year >= DateTime.Now.Year - 10)
                 throw new ArgumentException("Too low age");
-            if (birthDate.Year >= DateTime.Now.Year - 100)
+            if (birthDate.Year <= DateTime.Now.Year - 100)
                 throw new ArgumentException("Too high age");
 
             FirstName = firstName;

@@ -1,8 +1,8 @@
 ﻿using Bank.Domain.Entities;
+using Bank.Domain.Events;
 using Bank.Domain.RepositoryInterfaces;
 using Bank.Infrastructure.Mappers;
 using Bank.Infrastructure.Persistence;
-using Bank.Infrastructure.Persistence.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bank.Infrastructure.Repositories
@@ -11,9 +11,17 @@ namespace Bank.Infrastructure.Repositories
     {
         private readonly ApplicationDbContext _dbContext;
 
-        public CustomerRepository(ApplicationDbContext _dbContext)
+        public CustomerRepository(ApplicationDbContext dbContext)
         {
-            _dbContext = _dbContext;
+            _dbContext = dbContext;
+        }
+
+        public async void Apply(CustomerChangeAddressEvent customerChangeAddress)
+        {
+            var customer = await _dbContext.Customers.Where(c => c.ID == customerChangeAddress.CustomerId)
+                .FirstOrDefaultAsync();
+            customer.AddressID = customerChangeAddress.CustomerId;
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task<Customer> GetCustomerById(int id)
@@ -22,14 +30,28 @@ namespace Bank.Infrastructure.Repositories
                 .Include(c => c.Address)
                 .Include(c => c.CustomerStatus)
                 .FirstOrDefaultAsync();
+            if (customer == null)
+                return null;
             return CustomerEntityMapper.ToDomain(customer);
         }
 
-        public Task<Customer> Save(Customer customer)
+        public async Task<Customer> Save(Customer customer)
         {
-            using(var transaction = _dbContext.Database.BeginTransactionAsync())
+            using (var transaction = await _dbContext.Database.BeginTransactionAsync())
             {
-
+                try
+                {
+                    var customerEntity = CustomerEntityMapper.ToInfrastructure(customer);
+                    _dbContext.Customers.AddAsync(customerEntity);
+                    await _dbContext.SaveChangesAsync();
+                    await transaction.CommitAsync();
+                    return customer;
+                }
+                catch
+                {
+                    await transaction.RollbackAsync();
+                    throw;
+                }
             }
         }
     }

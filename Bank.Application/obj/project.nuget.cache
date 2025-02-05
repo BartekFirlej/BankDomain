@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "sH5qv1RH5slgvyy5x8xLZUXQE0gKQTyNZhRZLGTKlpzxdA49qN5CZf6Ph/gSnOGrVaMJqf7MlxBQjRBcMu17kw==",
+  "dgSpecHash": "X2KHlbpTvcWnbROIcW2/rEkLFqPVPnGBFAZbVOHHXRNvIdSvi/Kcqb9xKvBzU/JWTD3VdzxDOnFtnJI3plg+Fw==",
   "success": true,
   "projectFilePath": "C:\\Projekty\\Bank\\Bank.Application\\Bank.Application.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Bartek\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\9.0.1\\microsoft.extensions.dependencyinjection.9.0.1.nupkg.sha512",
+    "C:\\Users\\Bartek\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\9.0.1\\microsoft.extensions.dependencyinjection.abstractions.9.0.1.nupkg.sha512"
+  ],
   "logs": []
 }

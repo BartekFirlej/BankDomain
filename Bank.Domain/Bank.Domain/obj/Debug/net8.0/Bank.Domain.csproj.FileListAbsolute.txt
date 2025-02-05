@@ -1,0 +1,12 @@
+C:\Projekty\Bank\Bank.Domain\Bank.Domain\bin\Debug\net8.0\Bank.Domain.deps.json
+C:\Projekty\Bank\Bank.Domain\Bank.Domain\bin\Debug\net8.0\Bank.Domain.dll
+C:\Projekty\Bank\Bank.Domain\Bank.Domain\bin\Debug\net8.0\Bank.Domain.pdb
+C:\Projekty\Bank\Bank.Domain\Bank.Domain\obj\Debug\net8.0\Bank.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Projekty\Bank\Bank.Domain\Bank.Domain\obj\Debug\net8.0\Bank.Domain.AssemblyInfoInputs.cache
+C:\Projekty\Bank\Bank.Domain\Bank.Domain\obj\Debug\net8.0\Bank.Domain.AssemblyInfo.cs
+C:\Projekty\Bank\Bank.Domain\Bank.Domain\obj\Debug\net8.0\Bank.Domain.csproj.CoreCompileInputs.cache
+C:\Projekty\Bank\Bank.Domain\Bank.Domain\obj\Debug\net8.0\Bank.Domain.sourcelink.json
+C:\Projekty\Bank\Bank.Domain\Bank.Domain\obj\Debug\net8.0\Bank.Domain.dll
+C:\Projekty\Bank\Bank.Domain\Bank.Domain\obj\Debug\net8.0\refint\Bank.Domain.dll
+C:\Projekty\Bank\Bank.Domain\Bank.Domain\obj\Debug\net8.0\Bank.Domain.pdb
+C:\Projekty\Bank\Bank.Domain\Bank.Domain\obj\Debug\net8.0\ref\Bank.Domain.dll

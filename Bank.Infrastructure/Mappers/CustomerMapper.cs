@@ -26,9 +26,8 @@ namespace Bank.Infrastructure.Mappers
             );
         }
 
-        public static CustomerEntity ToInfrastrucutre(Customer customer)
+        public static CustomerEntity ToInfrastructure(Customer customer)
         {
-
             return new CustomerEntity
             {
                 ID = customer.ID,

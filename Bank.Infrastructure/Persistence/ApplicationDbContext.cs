@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Bank.Infrastructure.Persistence.Entities;
+﻿using Bank.Infrastructure.Persistence.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bank.Infrastructure.Persistence;

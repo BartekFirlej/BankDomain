@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Bank.Infrastructure.Persistence.Entities;
+﻿namespace Bank.Infrastructure.Persistence.Entities;
 
 public partial class AddressEntity
 {

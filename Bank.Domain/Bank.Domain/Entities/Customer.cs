@@ -1,5 +1,5 @@
-﻿using Bank.Domain.ValueObjects;
-using System.Net;
+﻿using Bank.Domain.Events;
+using Bank.Domain.ValueObjects;
 
 namespace Bank.Domain.Entities
 {
@@ -11,6 +11,24 @@ namespace Bank.Domain.Entities
         public int AddressId { get; private set; }
         public DateTime RegistrationDateTime { get; private set; }
         public RegistrationStatus RegistrationStatus { get; private set; }
+
+        public Customer(ContactData contactData, PersonalData personalData, int addressId, DateTime registrationDate)
+        {
+            if (contactData == null || string.IsNullOrWhiteSpace(contactData.EmailAddress))
+                throw new ArgumentException("Valid email is required.");
+            if (personalData == null || string.IsNullOrWhiteSpace(personalData.FirstName))
+                throw new ArgumentException("First name is required.");
+            if (addressId <= 0)
+                throw new ArgumentException("Invalid address ID.");
+            if (registrationDate > DateTime.UtcNow)
+                throw new ArgumentException("Registration date cannot be in the future.");
+
+            ContactData = contactData;
+            PersonalData = personalData;
+            AddressId = addressId;
+            RegistrationDateTime = registrationDate;
+            RegistrationStatus = RegistrationStatus.REQUEST_SENT;
+        }
 
         public Customer(int id, ContactData contactData, PersonalData personalData, int addressId, DateTime registrationDate)
         {
@@ -40,6 +58,13 @@ namespace Bank.Domain.Entities
             AddressId = addressId;
             RegistrationDateTime = registrationDate;
             RegistrationStatus = registrationStatus;
+        }
+
+        public CustomerChangeAddressEvent ChangeAddress(int newAddressId)
+        {
+            if (newAddressId <= 0) throw new ArgumentException("AddressId must be a valid reference.");
+            AddressId = newAddressId;
+            return new CustomerChangeAddressEvent(ID, newAddressId);
         }
 
         public void MarkPersonalDataVerified()

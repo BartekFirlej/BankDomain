@@ -1,4 +1,5 @@
 ﻿using Bank.Domain.Entities;
+using Bank.Domain.Events;
 
 namespace Bank.Domain.RepositoryInterfaces
 {
@@ -6,5 +7,6 @@ namespace Bank.Domain.RepositoryInterfaces
     {
         public Task<Customer> GetCustomerById(int id);
         public Task<Customer> Save(Customer customer);
+        public void Apply(CustomerChangeAddressEvent customerChangeAddress);
     }
 }
