@@ -7,6 +7,6 @@ namespace Bank.Application.ServiceInterfaces
     {
         Task<Customer> GetCustomerByIdAsync(int id);
         Task<Customer> RegisterCustomerAsync(CreateCustomerRequest request);
-        Task ChangeCustomerAddressAsync(int customerId, int newAddressId);
+        Task ChangeCustomerAddressAsync(ChangeAddressRequest request);
     }
 }

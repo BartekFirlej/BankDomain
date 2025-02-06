@@ -64,13 +64,31 @@ public class CustomerController : ControllerBase
         return CreatedAtAction(nameof(GetCustomerById), new { id = customer.ID }, response);
     }
 
-    [HttpPut("{customerId}/change-address/{newAddressId}")]
-    public async Task<IActionResult> ChangeCustomerAddress(int customerId, int newAddressId)
+    [HttpPut("{customerId}/change-address")]
+    public async Task<IActionResult> ChangeCustomerAddress(int customerId, [FromBody] ChangeAddressDTO dto)
     {
-        if (customerId <= 0 || newAddressId <= 0)
-            return BadRequest("Invalid Customer ID or Address ID.");
+        if (customerId <= 0 || customerId != dto.CustomerID)
+            return BadRequest("Invalid Customer ID.");
 
-        await _customerService.ChangeCustomerAddressAsync(customerId, newAddressId);
-        return Ok($"Customer {customerId} address updated successfully.");
+        if (dto == null)
+            return BadRequest("Request body cannot be null.");
+        var request = new ChangeAddressRequest(dto.CustomerID, dto.Street, dto.City, dto.PostalCode, dto.Country, dto.Number);
+        try
+        {
+            await _customerService.ChangeCustomerAddressAsync(request);
+            return Ok($"Customer {customerId} address updated successfully.");
+        }
+        catch (InvalidOperationException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"An error occurred: {ex.Message}");
+        }
     }
 }

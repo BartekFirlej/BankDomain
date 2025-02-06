@@ -7,5 +7,7 @@ namespace Bank.Application.ServiceInterfaces
     {
         Task<Address> GetAddressByIdAsync(int id);
         Task<Address> CreateAddressAsync(CreateAddressRequest request);
+        public Task<Address> GetAddressByDetailsAsync(string? street, string number, string city, string postalCode, string country);
+
     }
 }

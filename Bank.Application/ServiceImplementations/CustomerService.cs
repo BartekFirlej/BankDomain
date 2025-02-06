@@ -9,10 +9,12 @@ namespace Bank.Application.ServiceImplementations
     public class CustomerService : ICustomerService
     {
         private readonly ICustomerRepository _customerRepository;
+        private readonly IAddressService _addressService;
 
-        public CustomerService(ICustomerRepository customerRepository)
+        public CustomerService(ICustomerRepository customerRepository, IAddressService addressService)
         {
             _customerRepository = customerRepository;
+            _addressService = addressService;
         }
 
         public async Task<Customer> GetCustomerByIdAsync(int id)
@@ -32,17 +34,23 @@ namespace Bank.Application.ServiceImplementations
             return addedCustomer;
         }
 
-        public async Task ChangeCustomerAddressAsync(int customerId, int newAddressId)
+        public async Task ChangeCustomerAddressAsync(ChangeAddressRequest request)
         {
-            if (customerId <= 0 || newAddressId <= 0)
-                throw new ArgumentException("Customer ID and Address ID must be valid.");
-
-            var customer = await _customerRepository.GetCustomerById(customerId);
-            if (customer == null)
-                throw new InvalidOperationException("Customer not found.");
-
-            customer.ChangeAddress(newAddressId);
-            await _customerRepository.Save(customer);
+            if (request.CustomerID <= 0)
+                throw new ArgumentException("Customer ID must be valid.");
+            var customer = await GetCustomerByIdAsync(request.CustomerID);
+            Address address;
+            try
+            {
+                address = await _addressService.GetAddressByDetailsAsync(request.Street, request.Number, request.City, request.PostalCode, request.Country);
+            }
+            catch(NotFoundAddressException) 
+            {
+                var addressRequest = new CreateAddressRequest(request.Street, request.City, request.PostalCode, request.Country, request.Number);
+                address = await _addressService.CreateAddressAsync(addressRequest);
+            }
+            var changeAddressEvent = customer.ChangeAddress(address.ID);
+            await _customerRepository.Apply(changeAddressEvent);
         }
     }
 }

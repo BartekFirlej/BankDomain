@@ -4,6 +4,7 @@ using Bank.Domain.RepositoryInterfaces;
 using Bank.Infrastructure.Mappers;
 using Bank.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Bank.Infrastructure.Repositories
 {
@@ -16,11 +17,11 @@ namespace Bank.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        public async void Apply(CustomerChangeAddressEvent customerChangeAddress)
+        public async Task Apply(CustomerChangeAddressEvent customerChangeAddress)
         {
             var customer = await _dbContext.Customers.Where(c => c.ID == customerChangeAddress.CustomerId)
                 .FirstOrDefaultAsync();
-            customer.AddressID = customerChangeAddress.CustomerId;
+            customer.AddressID = customerChangeAddress.AddressId;
             await _dbContext.SaveChangesAsync();
         }
 
@@ -42,7 +43,7 @@ namespace Bank.Infrastructure.Repositories
                 try
                 {
                     var customerEntity = CustomerEntityMapper.ToInfrastructure(customer);
-                    _dbContext.Customers.AddAsync(customerEntity);
+                    await _dbContext.Customers.AddAsync(customerEntity);
                     await _dbContext.SaveChangesAsync();
                     await transaction.CommitAsync();
                     return customer;

@@ -7,6 +7,6 @@ namespace Bank.Domain.RepositoryInterfaces
     {
         public Task<Customer> GetCustomerById(int id);
         public Task<Customer> Save(Customer customer);
-        public void Apply(CustomerChangeAddressEvent customerChangeAddress);
+        public Task Apply(CustomerChangeAddressEvent customerChangeAddress);
     }
 }

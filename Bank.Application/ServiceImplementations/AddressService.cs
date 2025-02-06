@@ -31,5 +31,13 @@ namespace Bank.Application.ServiceImplementations
             var addedAddress = await _addressRepository.Save(address);
             return addedAddress;
         }
+
+        public async Task<Address> GetAddressByDetailsAsync(string? street, string number, string city, string postalCode, string country)
+        {
+            var address = await _addressRepository.GetAddressByDetailsAsync(street, number, city, postalCode, country);
+            if (address == null)
+                throw new NotFoundAddressException();
+            return address;
+        }
     }
 }
